@@ -1,0 +1,192 @@
+<section class="content" data-ng-init="buildPersonalReport()">
+    <h1>Personal Dashboard</h1>
+    <hr>
+      <div class="row">
+        <div class="col-md-3" ng-show="showEmployees">Employee:
+            <select ng-model="empId" class="form-control"
+                    ng-options="person.id as (person.firstName + ' ' + person.lastName) for person in people | orderBy:'firstName'"
+                    ng-value="person.id">{{person.name}}
+                <option value=""selected>Choose an employee</option>
+            </select>
+        </div>
+        <div class="col-md-2">Year: <input type="number"  ng-change="buildPersonalReport()" class="form-control" ng-model="year" min="2016" max="2018" ng-init="year=2018"></div>
+        <div class="col-md-2">Month: <select  ng-change="buildPersonalReport()" class="form-control" ng-model="month" ng-init="month=3"
+                                             ng-options="months.indexOf(ind) as ind for ind in months"></select></div>
+    </div>
+    <br>
+    <div ng-show="showOutput">
+        <div>
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        <h3>Personal Report</h3>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-purple-gradient"><i class="fa fa-calendar-check-o"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Year, Month:</span>
+                                    <span class="info-box-number">{{year}}<small>, {{monthNames[month]}}</small></span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-green-gradient"><i class="fa fa-hourglass-o"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Bradford Factor</span>
+                                    <span class="info-box-number">{{brantfordFactor}}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-yellow-gradient"><i class="fa fa-hourglass-o"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Paid Time Off</span>
+                                    <span class="info-box-number">{{paidTimeOff}}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h2 class="box-title">Employee Information</h2>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6" style="padding-left: 110px; padding-top: 20px">
+                        <div class="form-group">
+                            <img ng-src="{{person.image}}" width="300" height="300" />
+                        </div>
+                        <div class="info-box bg-{{boxClass}}">
+                            <span class="info-box-icon"><i class="fa fa-thumbs-o-{{thumbs}}"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Total Day Utilization</span>
+                                <span class="info-box-number">{{utilization}} %</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Last Name:</label>
+                            <input type="text" class="form-control" placeholder="{{person.lastName}}" disabled="">
+                        </div>
+                        <div class="form-group">
+                            <label>First Name:</label>
+                            <input type="text" class="form-control" placeholder="{{person.firstName}}" disabled="">
+                        </div>
+                        <div class="form-group">
+                            <label>Email:</label>
+                            <input type="text" class="form-control" placeholder="{{person.email}}" disabled="">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone:</label>
+                            <input type="text" class="form-control" placeholder="{{person.phone}}" disabled="">
+                        </div>
+                        <div class="form-group">
+                            <label>Employment date:</label>
+                            <input type="text" class="form-control" placeholder="{{person.beginDate}}" disabled="">
+                        </div>
+                        <div class="form-group">
+                            <label>Role:</label>
+                            <input type="text" class="form-control" placeholder="{{person.birthDate}}" disabled="">
+                        </div>
+                    </div>
+
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Working vs non-working days -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Working vs. Non-Working Days</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="chart">
+                            <canvas id="pie" class="chart chart-pie"
+                                    chart-data="data2" chart-labels="labels2" chart-options="options2" chart-colors="colors2">
+                            </canvas>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+
+                <!-- Nonworking statistics -->
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Non Working Days Statistics</h3>
+                    </div>
+                    <div class="box-body">
+                        <canvas id="bar" class="chart chart-bar"
+                                chart-data="data3" chart-labels="labels3" chart-series="series3">
+                        </canvas>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+
+            </div>
+            <!-- /.col (LEFT) -->
+            <div class="col-md-6">
+                <!-- projects statistics -->
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Projects Worked On:</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="chart">
+                            <canvas id="bar2" class="chart chart-pie"
+                                    chart-data="data4" chart-labels="labels4" chart-series="series4">
+                            </canvas>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+
+                <!-- BAR CHART -->
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Total Hours Worked Per Day:</h3>
+                        <div class="box-body">
+                            <div class="chart">
+                                <canvas id="bar3" class="chart chart-bar"
+                                        chart-data="data5" chart-labels="label5" chart-series="series5">
+                                </canvas>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+
+                </div>
+                <!-- /.col (RIGHT) -->
+            </div>
+</section>

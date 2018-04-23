@@ -1,0 +1,19 @@
+<h1>Teams</h1>
+
+<div class="row">
+    <div class="col-md-6" ng-controller="tmController">
+        <button type="button" class="btn btn-primary" ng-click="add()">Add new team</button>
+    </div>
+    <div class="col-md-6">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            <input class="form-control" type="text" placeholder="Search teams" ng-model="fil" ng-change="filter(fil)"/>
+        </div>
+    </div>
+</div>
+<br/>
+
+<div ng-repeat="team in teams">
+    <team team="team"></team>
+</div>
+

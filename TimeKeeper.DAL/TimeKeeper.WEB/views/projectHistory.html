@@ -1,0 +1,117 @@
+<section class="content">
+    <h1>Project History Report</h1>
+    <h5>Choose a project in order to get project history report.</h5>
+    <hr>
+    <div class="row">
+        <div class="col-md-3">Project:
+            <select ng-model="projectId" class="form-control"
+                    ng-options="project.id as project.name for project in projects"
+                    ng-value="project.id">{{person.name}}
+                <option value=""selected>Choose a project</option>
+            </select>
+        </div>
+        <div class="col-md-1" style="margin-top:18px">
+            <button type="button"
+                    class="btn btn-primary"
+                    ng-click="buildProjectHistory()">Show Report
+            </button>
+        </div>
+    </div>
+    <br>
+    <div ng-show="showOutput">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Project history</h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-aqua"><i class="fa fa-calendar-minus-o"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Project</span>
+                                <span class="info-box-number">{{project.name}}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-red"><i class="fa fa-clock-o"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Total Hours</span>
+                                <span class="info-box-number">{{project.totalHours}}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+
+                    <!-- fix for small devices only -->
+                    <div class="clearfix visible-sm-block"></div>
+
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-green"><i class="fa fa-bolt"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Time Span</span>
+                                <span class="info-box-number">{{beginMonth}}, {{beginYear}} - {{endMonth}}, {{endYear}}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-header -->
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Nonworking statistics -->
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Project History</h3>
+                    </div>
+                    <div class="box-body">
+                        <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name </th>
+                                <th>Total Hours</th>
+                                <th>2016</th>
+                                <th>2017</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="employee in project.employees">
+                                <td>{{employee.id}}</td>
+                                <td>{{employee.name}}</td>
+                                <td>{{employee.totalHours}}</td>
+                                <td ng-click="calculateMonthlyChart(2016)">{{employee.sums[0].totalHours}}</td>
+                                <td>{{employee.sums[1].totalHours}}</td>
+                            </tr>
+                            <td></td>
+                            <td>TOTAL</td>
+                            <td>{{project.totalHours}}</td>
+                            <td>{{project.total[0].totalHours}}</td>
+                            <td>{{project.total[1].totalHours}}</td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    </div>
+
+</section>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html ng-app="timeKeeper">
+
+
+<head>
+    <link href="styles/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="styles/style.css" rel="stylesheet" />
+    <link href=" styles/font-awesome.min.css" />
+    <link rel="stylesheet" href="styles/sweetalert.min.css">
+    <link rel="stylesheet" href="styles/toaster.min.css">
+
+
+    <script src="library/angular.min.js"></script>
+    <script src="library/ui-bootstrap-tpls.min.js"></script>
+    <script src="library/angular-route.min.js"></script>
+    <script src="library/sweetalert.min.js"></script>
+    <script src="library/angular-animate.min.js"></script>
+    <script src="library/toaster.min.js"></script>
+    <script src="node_modules/angular-base64-upload/src/angular-base64-upload.js"></script>
+
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/dayController.js"></script>
+    <script src="scripts/controllers/loginController.js"></script>
+    <script src="scripts/controllers/employeesController.js"></script>
+    <script src="scripts/controllers/teamsController.js"></script>
+    <script src="scripts/controllers/customersController.js"></script>
+    <script src="scripts/controllers/projectsController.js"></script>
+    <script src="scripts/services/dataService.js"></script>
+    <script src="scripts/services/infoService.js"></script>
+    <script src="scripts/directives/customerDirective.js"></script>
+    <script src="scripts/directives/teamDirective.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <meta name="google-signin-client_id" content="496587010155-laqpk92c089btscvb3s37s6igkh4sn8f.apps.googleusercontent.com">
+
+
+
+</head>
+
+  <body>
+  <div id="main-wrapper">
+      <header>
+          <div class="container">
+              <div class="pull-left"><h2>Time Keeper</h2></div>
+              <div class="pull-right navigacija" style="margin-top:24px; display:flex;">
+                  <a href="#/teams"><button class="btn btn-primary">Teams</button></a>
+                  <a href="#/employees"><button class="btn btn-primary">Employees</button></a>
+                  <a href="#/customers"><button class="btn btn-primary">Customers</button></a>
+                  <a href="#/projects"><button class="btn btn-primary">Projects</button></a>
+                  <a href="#/timetracking"><button class="btn btn-primary">Day</button></a>
+
+                  <span ng-show="currentUser.id==0">
+                      <a href="#/login"><button class="btn btn-warning">LOGIN
+                      </button></a>
+                  </span>
+                  <span ng-show="currentUser.id!=0">
+                      <a href="#/logout"><button class="btn btn-warning">LOGOUT
+                      </button></a>
+                  </span>
+
+
+
+              </div>
+          </div>
+      </header>
+
+      <div class="container-fluid"><div ng-view></div></div>
+
+
+      <footer>
+          <div>Copyright &copy; by Gigi School</div>
+      </footer>
+
+      <toaster-container></toaster-container>
+
+      <div id="loader" ng-show="waitForLoad">
+      <div class="browser-screen-loading-content" >
+          <div class="loading-dots dark-gray">
+              <i></i>
+              <i></i>
+              <i></i>
+              <i></i>
+          </div>
+      </div>
+      </div>
+  </div>
+  </body>
+</html>

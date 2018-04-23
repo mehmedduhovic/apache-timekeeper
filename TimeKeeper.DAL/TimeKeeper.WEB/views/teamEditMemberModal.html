@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Edit employee's role</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <input type="hidden" ng-model="team.id">
+    <input type="hidden" ng-model="member.id"> <!-- id engagement -->
+    <input type="hidden" ng-model="member.employee.id"> <!-- id team member -->
+
+
+    <div class="form-group">
+        <label>Role:</label>
+        <select ng-model="member.role.id" class="form-control" ng-options="role.id as role.name for role in roles" ng-value="role.id">{{member.role.name}}</option>
+        </select>
+
+    </div>
+
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal" type="button" ng-click="update(member)">Save</button>
+        <button class="btn btn-default" data-dismiss="modal" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</div>

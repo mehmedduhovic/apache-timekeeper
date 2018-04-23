@@ -1,0 +1,232 @@
+<h1 xmlns="http://www.w3.org/1999/html">Projects</h1>
+<hr>
+<h2>{{message}}</h2>
+
+<div class="card">
+    <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="button" data-toggle="modal" data-target="#newModal1" class="btn btn-primary" ng-click="unSet()"  ng-click="info('Canceled', 'You canceled')">Add new project</button>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                        <input class="form-control" type="text" placeholder="Search projects" ng-model="fil" ng-change="filter(fil)"/>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th><a ng-click="toggleSort(num)">Project Name</a></th>
+                    <th>Customer Name</th>
+                    <th>Team </th>
+                    <th>Status</th>
+                    <th>Pricing</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="project in projects">
+                    <td style="vertical-align: middle">{{project.name}}</td>
+                   <td style="vertical-align: middle">{{project.customer}}</td>
+                    <td style="vertical-align: middle">{{project.team}}</td>
+                    <td style="vertical-align: middle">{{project.status}}</td>
+                    <td style="vertical-align: middle">{{project.pricing}}</td>
+                    <td style="vertical-align: middle">
+                        <button type="button" data-toggle="modal" data-target="#myModal1" class="btn btn-primary" ng-click="edit(project)">Edit</button>
+                        <button type="button" class="btn btn-danger" ng-click="confirmDelete(project)">Delete</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></ul>
+    </div>
+</div>
+
+<div class="modal fade" id="newModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="newModalLabel">New project</h4>
+            </div>
+            <div class="modal-body">
+                <div class="basic-form">
+                    <form name="valPro" novalidate>
+                        <input type="hidden" ng-model="project.id">
+                        <div class="form-group">
+                            <label>Project name: </label>
+                            <input type="text" class="form-control" placeholder="Project name" ng-model="project.name" name="valName" required="">
+                            <div ng-show="valPro.$submitted || valPro.valName.$touched">
+                                <span style="color:red" ng-show="valPro.valName.$error.required">Customer name is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Amount: </label>
+                            <input type="text" class="form-control" placeholder="Amount" ng-model="project.amount">
+                        </div>
+                        <div class="form-group">
+                            <label>Description: </label>
+                            <textarea type="text" placeholder="Dscription" style="resize: none; max-height: 300px; margin: 0px;height: 126px;width: 565px;" ng-model="project.description" name="valDesc" required=""></textarea>
+                            <div ng-show="valPro.$submitted || valPro.valDesc.$touched">
+                                <span style="color:red" ng-show="valPro.valDesc.$error.required">Description is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Begin date: </label>
+                            <input type="date" class="form-control" ng-model="project.startDate"  name="valDate" required="">
+                            <div ng-show="valPro.$submitted || valPro.valDate.$touched">
+                                <span style="color:red" ng-show="valPro.valDate.$error.required">Begin date is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Monogram: </label>
+                            <input type="url" class="form-control" ng-model="project.monogram" placeholder="Paste Monogram Url">
+                        </div>
+                        <div class="form-group">
+                            <label>Customer: </label>
+                            <select ng-model="project.customerId" class="form-control" required="" name="valCust"
+                                    ng-options="customer.id as customer.name for customer in customers"
+                                    ng-value="customer.id">{{customer.name}}</option>
+                                <option value="" selected hidden>Choose a customer</option>
+                            </select>
+                            <div ng-show="valPro.$submitted || valPro.valCust.$touched">
+                                <span style="color:red" ng-show="valPro.valCust.$error.required">Customer is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Team: </label>
+                            <select ng-model="project.teamId" class="form-control" required="" name="valTeam"
+                                    ng-options="team.id as team.name for team in teams"
+                                    ng-value="team.id">{{team.name}}</option>
+                                <option value="" selected hidden>Choose a team</option>
+                            </select>
+                            <div ng-show="valPro.$submitted || valPro.valTeam.$touched">
+                                <span style="color:red" ng-show="valPro.valTeam.$error.required">Team is required.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Status: </label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.status" value="InProgress">In progress</label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.status" value="OnHold">On hold</label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.status" value="Finished">Finished</label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.status" value="Canceled">Canceled</label>
+                        </div>
+                        <div class="form-group">
+                            <label>Pricing: </label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.pricing" value="HourlyRate">Hourly rate</label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.pricing" value="PerCapitaRate">Per capita rate</label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.pricing" value="FixedPrice">Fixed price</label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.pricing" value="NotBillable">Not billable</label>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" data-dismiss="modal" class="btn btn-primary m-b-10 m-l-5"
+                        ng-click="save(project)" ng-disabled="valPro.$invalid">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<!-- Modal -->
+<!-- Modal -->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit project</h4>
+            </div>
+            <div class="modal-body">
+                <div class="basic-form">
+                    <input type="hidden" ng-model="project.id">
+                    <form>
+                        <div class="form-group">
+                            <label>Project Name</label>
+                            <input type="text" class="form-control" ng-model="project.name">
+                        </div>
+                        <div class="form-group">
+                            <label>Amount: </label>
+                            <input type="text" class="form-control" placeholder="Amount" ng-model="project.amount">
+                        </div>
+                        <div class="form-group">
+                            <label>Description: </label>
+                            <textarea type="text" class="form-control" placeholder="Dscription"
+                                      style="resize: none; max-height: 300px; margin: 0px;height: 126px;width: 565px;"ng-model="project.description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Begin date: </label>
+                            <input type="text" class="form-control" ng-model="project.startDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Monogram: </label>
+                            <input type="url" class="form-control" ng-model="project.monogram" placeholder="Paste Monogram Url">
+                        </div>
+                        <div class="form-group">
+                            <label>Customer:</label>
+                            <select ng-model="project.customerId" class="form-control"
+                                    ng-options="customer.id as customer.name for customer in customers"
+                                    ng-value="customer.id">{{customer.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Team:</label>
+                            <select ng-model="project.teamId" class="form-control" required=""
+                                    ng-options="team.id as team.name for team in teams"
+                                    ng-value="team.id">{{team.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.status" value="InProgress" checked>In progress</label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.status" value="OnHold">On hold</label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.status" value="Finished">Finished</label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.status" value="Canceled">Canceled</label>
+                        </div>
+                        <div class="form-group">
+                            <label>Pricing: </label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.pricing" value="HourlyRate">Hourly rate</label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.pricing" value="PerCapitaRate">Per capita rate</label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.pricing" value="FixedPrice">Fixed price</label>
+                            <label class="radio-inline"><input type="radio" ng-model="project.pricing" value="NotBillable">Not billable</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" data-dismiss="modal" class="btn btn-primary m-b-10 m-l-5" ng-click="save(project)">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- DELETE --- ARE U SURE? --- MODAL-
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="confirm-delete">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" ng-model="project.id">
+                <h4 class="modal-title" id="mySmallModalLabel">Are you sure?</h4>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-4">
+
+                    <button type="submit" class="btn btn-success" id="modal-btn-yes"  ng-click="delete(project)" data-dismiss="modal">Yes</button>
+
+                </div>
+                <button type="button" class="btn btn-default" id="modal-btn-no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>-->

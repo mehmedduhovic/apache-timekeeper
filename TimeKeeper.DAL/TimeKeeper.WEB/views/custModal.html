@@ -1,0 +1,53 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">{{customer.name}}</h3>
+</div>
+
+<div class="modal-body" id="modal-body">
+    <form name="valCust" novalidate>
+    <input type="hidden" ng-model="customer.id">
+    <div class="row">
+        <div class="col-md-4 label">Name:</div>
+        <div class="col-md-6"><input type="text" class="form-control" ng-model="customer.name" placeholder="Name" name="valName" required="">
+            <div ng-show="valCust.$submitted || valCust.valName.$touched">
+                <span style="color:red" ng-show="valCust.valName.$error.required">Customer name is required.</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 label">Contact:</div>
+        <div class="col-md-6"><input type="text" class="form-control" ng-model="customer.contact"  placeholder="Contact" name="valContact" required="">
+            <div ng-show="valCust.$submitted || valCust.valContact.$touched">
+                <span style="color:red" ng-show="valCust.valContact.$error.required">Contact name is required.</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 label">Email:</div>
+        <div class="col-md-6"><input type="email" class="form-control" ng-model="customer.email"  placeholder="Email" name="valEmail" required="">
+            <div ng-show="valCust.$submitted || valCust.valEmail.$touched">
+                <span style="color:red" ng-show="valCust.valEmail.$error.required">Email is required.</span>
+                <span style="color:red" ng-show="valCust.valEmail.$error.email">Invalid email.</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 label">Phone:</div>
+        <div class="col-md-6"><input type="text" class="form-control" ng-model="customer.phone"  placeholder="Phone" name="valPhone" required="">
+            <div ng-show="valCust.$submitted || valEmp.valPhone.$touched">
+                <span style="color:red" ng-show="valEmp.valPhone.$error.required">Phone is required.</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 label">Status:</div>
+        <div class="col-md-7">
+            <label class="radio-inline"><input type="radio" ng-model="customer.status" value="Client" checked>Client</label>
+            <label class="radio-inline"><input type="radio" ng-model="customer.status" value="Prospect">Prospect</label>
+        </div>
+    </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" data-dismiss="modal" ng-click="save(customer)" ng-disabled="valCust.$invalid">Save</button>
+    <button class="btn btn-default" type="button" data-dismiss="modal" ng-click="cancel()">Cancel</button>
+</div>

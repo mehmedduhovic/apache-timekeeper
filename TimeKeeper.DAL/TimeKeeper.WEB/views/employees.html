@@ -1,0 +1,216 @@
+<h1>
+    Employees
+</h1>
+<br />
+<div class="card" ng-show="showEmployees">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <button type="button" data-toggle="modal" data-target="#newModal" class="btn btn-primary" ng-click="unSet()">Add new employee</button>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input class="form-control" type="text" placeholder="Search employees" ng-model="fil" ng-change="filter(fil)"/>
+                </div>
+            </div>
+        </div>
+        <br />
+        <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>First Name</th>
+                <th><a ng-click="toggleSort(num)">Last Name</a></th>
+                <th>Image</th>
+                <th>Email </th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>Position</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="person in people">
+                <td style="vertical-align: middle">{{person.firstName}}</td>
+                <td style="vertical-align: middle">{{person.lastName}}</td>
+                <td style="vertical-align: middle"><img ng-src="{{person.image}}" width="50" height="50"  /></td>
+                <td style="vertical-align: middle">{{person.email}}</td>
+                <td style="vertical-align: middle">{{person.phone}}</td>
+                <td style="vertical-align: middle">{{person.status}}</td>
+                <td style="vertical-align: middle">{{person.roles.name}}</td>
+                <td style="vertical-align: middle">
+                    <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" ng-click="edit(person)">Edit</button>
+                    <button type="button"  class="btn btn-danger" ng-click="confirmDelete(person)">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <ul ng-hide="empPagination" uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></ul>
+    </div>
+</div>
+
+<!-- NEW EMPLOYEE MODAL -->
+<div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="newModalLabel">Add new employee</h4>
+            </div>
+            <div class="modal-body">
+                <div class="basic-form">
+                    <form name="valEmp" novalidate>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="custom-file">
+                                    <input id="inputImagee" type="file" data-classButton="btn btn-primary" ng-model="image" base-sixty-four-input accept="image/*">
+                                    <label class="custom-file-label" for="inputImagee">Choose profile image</label>
+                                </div>
+                                <div class="form-group">
+                                    <label>First Name:</label>
+                                    <input type="text"  name="valFName" class="form-control" placeholder="First Name" ng-model="person.firstName" required="">
+                                    <div ng-show="valEmp.$submitted || valEmp.valFName.$touched">
+                                        <span style="color:red" ng-show="valEmp.valFName.$error.required">First name is required.</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Name:</label>
+                                    <input type="text" name="valLName" class="form-control" placeholder="Last Name" ng-model="person.lastName" required="">
+                                    <div ng-show="valEmp.$submitted || valEmp.valLName.$touched">
+                                        <span style="color:red" ng-show="valEmp.valLName.$error.required">Last name is required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <input type="hidden" ng-model="person.id">
+                                <div class="form-group">
+                                    <label>Email:</label>
+                                    <input type="email" class="form-control" placeholder="Email" ng-model="person.email" name="valEmail" required="">
+                                    <div ng-show="valEmp.$submitted || valEmp.valEmail.$touched">
+                                        <span style="color:red" ng-show="valEmp.valEmail.$error.required">Email is required.</span>
+                                        <span style="color:red" ng-show="valEmp.valEmail.$error.email">Invalid email.</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone:</label>
+                                    <input type="number" class="form-control" placeholder="Phone" ng-model="person.phone" name="valPhone" required=""
+                                           ng-minlength="9"
+                                           ng-maxlength="15" >
+                                    <div ng-show="valEmp.$submitted || valEmp.valPhone.$touched">
+                                        <span style="color:red" ng-show="valEmp.valPhone.$error.required">Phone is required.</span>
+                                        <span style="color:red" ng-show="valEmp.valPhone.$error.number">Invalid phone number format.</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Birth Date:</label>
+                                    <input type="date" class="form-control" placeholder="Birth Date" ng-model="person.birthDate">
+                                </div>
+                                <div class="form-group">
+                                    <label>Employement Date:</label>
+                                    <input type="date" class="form-control" placeholder="Employement Date" ng-model="person.beginDate">
+                                </div>
+                                <div class="form-group">
+                                    <label>Status:</label>
+                                    <label class="radio-inline"><input type="radio" ng-model="person.status" value="1" checked>Aktivan</label>
+                                    <label class="radio-inline"><input type="radio" ng-model="person.status" value="0" >Trial</label>
+                                    <label class="radio-inline"><input type="radio" ng-model="person.status" value="2" >Leaver</label>
+                                </div>
+                                <div class="form-group">
+                                    <label>Position:</label>
+                                    <select ng-model="person.roles.id" class="form-control" ng-options="role.id as role.name for role in roles" ng-value="role.id">{{role.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" ng-disabled="valEmp.$invalid"
+                        data-dismiss="modal" class="btn btn-primary m-b-10 m-l-5" ng-click="save(person)">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+
+        </div>
+
+    </div>
+
+<!-- EDIT EMPLOYEE MODAL -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit employee</h4>
+            </div>
+            <div class="modal-body">
+                <div class="basic-form">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>First Name:</label>
+                                    <input type="text" class="form-control" placeholder="First Name" ng-model="person.firstName">
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Name:</label>
+                                    <input type="text" class="form-control" placeholder="Last Name" ng-model="person.lastName">
+                                </div>
+
+                                <input type="hidden" ng-model="person.id">
+                                <div>
+                                    <img ng-src="{{person.image}}" width="420px" />
+                                </div>
+                                <br >
+                                <div class="custom-file">
+                                    <input id="inputImage" type="file" data-classButton="btn btn-primary" ng-model="image" base-sixty-four-input accept="image/*">
+                                    <label class="custom-file-label" for="inputImage">Choose profile image</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Email:</label>
+                                    <input type="email" class="form-control" placeholder="Email" ng-model="person.email">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone:</label>
+                                    <input type="text" class="form-control" placeholder="Phone" ng-model="person.phone">
+                                </div>
+                                <div class="form-group">
+                                    <label>Birth Date:</label>
+                                    <input type="text" class="form-control" placeholder="Birth Date" ng-model="person.birthDate">
+                                </div>
+                                <div class="form-group">
+                                    <label>Employement Date:</label>
+                                    <input type="text" class="form-control" placeholder="Employement Date" ng-model="person.beginDate">
+                                </div>
+                                <div class="form-group">
+                                    <label>Status:</label>
+                                    <label class="radio-inline"><input type="radio" ng-model="person.status" value="Active">Active</label>
+                                    <label class="radio-inline"><input type="radio" ng-model="person.status" value="Trial">Trial</label>
+                                    <label class="radio-inline"><input type="radio" ng-model="person.status" value="Leaver">Leaver</label>
+                                </div>
+                                <div class="form-group">
+                                    <label>Position:</label>
+                                    <select ng-model="person.roles.id" class="form-control" ng-options="role.id as role.name for role in roles" ng-value="role.id">{{role.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Salary:</label>
+                                    <input type="text" class="form-control" placeholder="Birth Date" ng-model="person.salary">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" data-dismiss="modal" class="btn btn-primary m-b-10 m-l-5" ng-click="save(person)">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+</div>

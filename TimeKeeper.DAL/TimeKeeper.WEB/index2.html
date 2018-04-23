@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html ng-app="timeKeeper">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Timekeeper Dashboard</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <link rel="stylesheet" href="styles/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/sweetalert.min.css">
+    <link rel="stylesheet" href="styles/toaster.min.css">
+    <link rel="stylesheet" href="styles/ionicons.min.css">
+    <link rel="stylesheet" href="styles/AdminLTE.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/_all-skins.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <script src="library/angular.min.js"></script>
+    <script src="library/ui-bootstrap-tpls.min.js"></script>
+    <script src="library/angular-route.min.js"></script>
+    <script src="library/sweetalert.min.js"></script>
+    <script src="library/angular-animate.min.js"></script>
+    <script src="library/toaster.min.js"></script>
+    <script src="library/Chart.min.js"></script>
+    <script src="library/angular-chart.min.js"></script>
+    <script src="library/angular-base64-upload.min.js"></script>
+    <script src="library/angular-local-storage.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="scripts/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <script src="styles/js/bootstrap.min.js"></script>
+    <script src="scripts/adminlte.min.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/dayController.js"></script>
+    <script src="scripts/controllers/loginController.js"></script>
+    <script src="scripts/controllers/employeesController.js"></script>
+    <script src="scripts/controllers/teamsController.js"></script>
+    <script src="scripts/controllers/customersController.js"></script>
+    <script src="scripts/controllers/projectsController.js"></script>
+    <script src="scripts/controllers/engagementController.js"></script>
+    <script src="scripts/controllers/personalReportController.js"></script>
+    <script src="scripts/controllers/monthlyReportController.js"></script>
+    <script src="scripts/controllers/yearlyReportController.js"></script>
+    <script src="scripts/controllers/projectHistoryController.js"></script>
+    <script src="scripts/controllers/dashboardCompanyController.js"></script>
+    <script src="scripts/controllers/dashboardTeamController.js"></script>
+    <script src="scripts/controllers/billingController.js"></script>
+    <script src="scripts/services/dataService.js"></script>
+    <script src="scripts/services/infoService.js"></script>
+    <script src="scripts/directives/customerDirective.js"></script>
+    <script src="scripts/directives/teamDirective.js"></script>
+    <script src="scripts/platform.js"></script>
+    <meta name="google-signin-client_id" content="496587010155-laqpk92c089btscvb3s37s6igkh4sn8f.apps.googleusercontent.com">
+    <script>
+        $(document).ready(function () {
+            $('.nested').on('click', function () {
+                $('.active').removeClass('active');
+                $(this).addClass('active');
+            });
+        });
+    </script>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="index2.html" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>T</b>KE</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>TimeKeeper</b></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown messages menu">
+                            <a href="index.html" ng-show="currentUser.id==0">
+                                <span class="hidden-xs">Back to homepage</span>
+                            </a>
+                            <a href="#/logout" ng-show="currentUser.id!=0">
+                                <i class="fa fa-user"></i>
+                                <span class="hidden-xs">Logout</span>
+                            </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar"  ng-show="currentUser.id!=0">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar user panel -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <p><img class="img-circle" ng-src="{{currentUser.image}}" width="40" height="40"  /></p>
+                </div>
+                <div class="pull-left info">
+                    <p>{{currentUser.name}}</p>
+                    <small>{{currentUser.role}}</small>
+                </div>
+            </div>
+            <!-- /.search form -->
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="nested" id="dashboardroute" ng-show="currentUser.role=='Administrator'">
+                    <a href="#/companydashboard"><i class="fa fa-dashboard"></i>Company Dashboard</a>
+                </li>
+                <li class="nested"  ng-show="currentUser.role=='Administrator' || canSee == true">
+                    <a href="#/teamdashboard"><i class="fa fa-dashboard"></i>Team Dashboard</a>
+                </li>
+                <li class="nested">
+                    <a href="#/personalreport"><i class="fa fa-dashboard"></i>Personal Dashboard</a>
+                </li>
+                <li class="nested" ng-show="currentUser.role=='Administrator'">
+                    <a href="#/teams"><i class="fa fa-users"></i>Teams</a>
+                </li>
+                <li  class="nested" ng-show="currentUser.role=='Administrator'">
+                    <a href="#/employees"><i class="fa fa-user"></i>Employees</a>
+                </li>
+                <li  class="nested" ng-show="currentUser.role=='Administrator'">
+                    <a href="#/customers"><i class="fa fa-briefcase"></i>Customers</a>
+                </li>
+                <li  class="nested" ng-show="currentUser.role=='Administrator'">
+                    <a href="#/projects"><i class="fa fa-book"></i>Projects</a>
+                </li>
+                <li  class="nested" id="daysroute">
+                    <a href="#/timetracking"><i class="fa fa-calendar"></i>Day</a>
+                </li>
+                <li  class="nested" ng-show="currentUser.role=='Administrator'">
+                    <a href="#/billing"><i class="fa fa-money"></i>Billing</a>
+                </li>
+                <li class="treeview">
+                    <a href="#"  ng-show="currentUser.role=='Administrator'">
+                        <i class="fa fa-laptop"></i>
+                        <span>Reports</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu" style="display: block;">
+                        <li class="nested">
+                          <a href="#/projecthistoryreport" ng-show="currentUser.role=='Administrator'"><i class="fa fa-circle-o"></i> Project History Report</a></li>
+                        <li class="nested">
+                          <a href="#/monthlyreport" ng-show="currentUser.role=='Administrator'"><i class="fa fa-circle-o"></i> Monthly Report</a></li>
+                        <li class="nested">
+                          <a href="#/annualreport" ng-show="currentUser.role=='Administrator'"><i class="fa fa-circle-o"></i> Annual Report</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+        </section>
+        <section class="content">
+            <div class="container-fluid"><div ng-view></div></div>
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+       <!-- <div class="pull-right hidden-xs">
+                <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/tastelessgentlemen"><i class="fa fa-facebook"></i></a>
+                <a class="btn btn-social-icon btn-instagram" href="https://www.instagram.com/realdonaldtrump/?hl=en"><i class="fa fa-instagram"></i></a>
+        </div> -->
+        <strong class="pull-left">Apache Team</strong>
+    </footer>
+</div>
+
+<toaster-container></toaster-container>
+
+<div id="loader" ng-show="waitForLoad">
+    <div class="browser-screen-loading-content" >
+        <div class="loading-dots dark-gray">
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

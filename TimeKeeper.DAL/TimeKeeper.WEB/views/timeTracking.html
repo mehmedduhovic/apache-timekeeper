@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="col-md-4"><h1>Calendar</h1></div>
+    <div class="col-md-3" ng-show="showEmployees">Employee:
+        <select ng-model="empId" class="form-control"
+                ng-options="person.id as (person.firstName + ' ' + person.lastName) for person in people | orderBy:'firstName'"
+                ng-value="person.id">{{person.name}}
+            <option value=""selected>Choose an employee</option>
+        </select>
+    </div>
+    <div class="col-md-2">Year: <input type="number" class="form-control" ng-model="year" min="2016" max="2018" ng-init="year=2017"></div>
+    <div class="col-md-2">Month: <select class="form-control" ng-model="month" ng-init="month=0"
+                                         ng-options="months.indexOf(ind) as ind for ind in months"></select></div>
+    <div class="col-md-1" style="margin-top:18px">
+        <button type="button"
+                class="btn btn-primary"
+                ng-click="buildCalendar()">List!
+        </button>
+    </div>
+</div>
+<hr>
+<div ng-show="showCalendar">
+    <div class="calendar">
+        <div class="calendar_header">
+            <div class="day spaceholder2">MONDAY</div>
+            <div class="day spaceholder2">TUESDAY</div>
+            <div class="day spaceholder2">WEDNESDAY</div>
+            <div class="day spaceholder2">THURSDAY</div>
+            <div class="day spaceholder2">FRIDAY</div>
+            <div class="day spaceholder2">SATURDAY</div>
+            <div class="day spaceholder2">SUNDAY</div>
+        </div>
+        <div ng-repeat="i in num() track by $index" class="day spaceholder"></div>
+        <div ng-repeat="day in calendar">
+            <div class="day {{dayType[day.type]}}" title="{{dayType[day.type]}}" ng-click="edit(day)">
+                <div class="pull-left bold-text">{{day.date.substring(8,10)}}</div>
+                <div class="pull-right red-text bold-text" ng-show="day.type==1">{{day.details.length}} {{day.details.length > 1 ? "tasks" : "task"}}</div>
+                <div class="clearfix"></div>
+                <div class="dayhours" ng-show="day.type==1">{{day.hours}}</div>
+            </div>
+        </div>
+    </div>
+</div>

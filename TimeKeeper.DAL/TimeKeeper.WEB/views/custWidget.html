@@ -1,0 +1,54 @@
+<!--<div class="custFrame">
+    <img class="custImage" ng-src="images/{{data.monogram}}.jpg">
+    <div class="custData">
+        <span class="custTitle">{{data.name}}</span><br>
+        {{data.contact}}<br>
+        {{data.phone}}
+    </div>
+    <div class="clearfix"></div>
+    <div class="custNav">
+        <a href="" ng-click="edit(data)"><i class="glyphicon glyphicon-pencil"></i></a>
+        <a href="" ng-click="confirmDelete(data)"><i class="glyphicon glyphicon-trash"></i></a>
+    </div>
+</div> -->
+
+<div class="col-md-4">
+<div class="box box-widget widget-user">
+    <!-- Add the bg color to the header using any of the bg-* classes -->
+    <div class="widget-user-header bg-aqua-active">
+        <h3 class="widget-user-username">{{data.name}}</h3>
+    </div>
+    <div class="widget-user-image">
+        <img class="img-circle" ng-src="images/{{data.monogram}}.jpg" alt="Customer Avatar">
+    </div>
+    <div class="box-footer">
+        <div class="row">
+            <div class="col-sm-4 border-right">
+                <div class="description-block">
+                    <h5 class="description-header">{{data.contact}}</h5>
+                    <span class="description-text">Contact</span>
+                </div>
+                <!-- /.description-block -->
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 border-right">
+                <div class="description-block">
+                    <h5 class="description-header">{{data.phone}}</h5>
+                    <span class="description-text">Phone</span>
+                </div>
+                <!-- /.description-block -->
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4">
+                <div class="description-block">
+                    <a href="" ng-click="edit(data)"><i class="glyphicon glyphicon-pencil"></i></a>
+                    <a href="" ng-click="confirmDelete(data)"><i class="glyphicon glyphicon-trash"></i></a>
+                </div>
+                <!-- /.description-block -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</div>
+</div>

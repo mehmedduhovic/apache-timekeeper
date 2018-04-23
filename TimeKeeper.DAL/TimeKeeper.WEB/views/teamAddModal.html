@@ -1,0 +1,37 @@
+
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">{{team.name}}</h3>
+</div>
+
+<div class="modal-body" id="modal-body">
+    <input type="hidden" ng-model="team.id">
+
+    <form name="valT" novalidate>
+    <div class="form-group">
+        <div>Id:</div>
+        <div><input type="text" class="form-control" ng-model="team.id" required="" name="valId"></div>
+        <div ng-show="valT.$submitted || valT.valId.$touched">
+            <span style="color:red" ng-show="valT.valId.$error.required">Team ID is required.</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>Name:</div>
+        <div><input type="text" class="form-control" ng-model="team.name" required="" name="valName"></div>
+        <div ng-show="valT.$submitted || valT.valName.$touched">
+            <span style="color:red" ng-show="valT.valName.$error.required">Team name is required.</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>Description:</div>
+        <div><textarea type="text" class="form-control"
+                       style="resize: none; max-height: 300px; margin: 0px;height: 126px;width: 565px;"
+                       ng-model="team.description"/></div>
+    </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" data-dismiss="modal" type="button" ng-click="save(team)" ng-disabled="valT.$invalid">Save</button>
+    <button class="btn btn-default" data-dismiss="modal" type="button" ng-click="cancel()">Cancel</button>
+</div>

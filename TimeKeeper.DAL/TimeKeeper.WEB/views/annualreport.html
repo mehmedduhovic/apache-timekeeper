@@ -1,0 +1,138 @@
+
+
+<section class="content">
+    <h1>Annual Report</h1>
+    <h5>Choose a year in order to get annual report.</h5>
+    <hr>
+    <div class="row">
+        <div class="col-md-2">Enter a Year: <input type="number" class="form-control" ng-model="year" min="2016" max="2018" ng-init="year=2017"></div>
+        <div class="col-md-1" style="margin-top:18px">
+            <button type="button"
+                    class="btn btn-primary"
+                    ng-click="buildAnnualReport()">Show Report
+            </button>
+        </div>
+    </div>
+    <br>
+    <div ng-show="showOutput">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h2 class="box-title">Annual Project Information</h2>
+            </div>
+
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-4 col-lg-offset-2">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-aqua"><i class="fa fa-calendar-minus-o"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Year</span>
+                                <span class="info-box-number">{{year}}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4 col-offset-2">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-red"><i class="fa fa-clock-o"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Total Hours</span>
+                                <span class="info-box-number">{{last.totalHours}}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <!-- fix for small devices only -->
+                    <div class="clearfix visible-sm-block"></div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-header -->
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Nonworking statistics -->
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Projects this year</h3>
+                    </div>
+                    <div class="box-body">
+                        <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Total Hours </th>
+                                <th>January</th>
+                                <th>February</th>
+                                <th>March</th>
+                                <th>April</th>
+                                <th>May</th>
+                                <th>June</th>
+                                <th>July</th>
+                                <th>August</th>
+                                <th>September</th>
+                                <th>October</th>
+                                <th>November</th>
+                                <th>December</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="project in projects.list">
+                                <td>
+                                    <div ng-switch="project.projectName">
+                                        <div ng-switch-when="TOTAL"><strong>{{project.projectName}}</strong></div>
+                                        <div ng-switch-default>{{project.projectName}}</div>
+                                    </div>
+                                </td>
+                                <td>{{project.totalHours}}</td>
+                                <td class="hoverCursor" ng-click="calculateDays(year, 1, project.projectName)" data-toggle="modal" data-target="#myModal">{{project.monthlyHours[0]}}</td>
+                                <td class="hoverCursor" ng-click="calculateDays(year, 2, project.projectName)" data-toggle="modal" data-target="#myModal">{{project.monthlyHours[1]}}</td>
+                                <td class="hoverCursor" ng-click="calculateDays(year, 3, project.projectName)" data-toggle="modal" data-target="#myModal">{{project.monthlyHours[2]}}</td>
+                                <td class="hoverCursor" ng-click="calculateDays(year, 4, project.projectName)" data-toggle="modal" data-target="#myModal">{{project.monthlyHours[3]}}</td>
+                                <td class="hoverCursor" ng-click="calculateDays(year, 5, project.projectName)" data-toggle="modal" data-target="#myModal">{{project.monthlyHours[4]}}</td>
+                                <td class="hoverCursor" ng-click="calculateDays(year, 6, project.projectName)" data-toggle="modal" data-target="#myModal">{{project.monthlyHours[5]}}</td>
+                                <td class="hoverCursor" ng-click="calculateDays(year, 7, project.projectName)" data-toggle="modal" data-target="#myModal">{{project.monthlyHours[6]}}</td>
+                                <td class="hoverCursor" ng-click="calculateDays(year, 8, project.projectName)" data-toggle="modal" data-target="#myModal">{{project.monthlyHours[7]}}</td>
+                                <td class="hoverCursor" ng-click="calculateDays(year, 9, project.projectName)" data-toggle="modal" data-target="#myModal">{{project.monthlyHours[8]}}</td>
+                                <td class="hoverCursor" ng-click="calculateDays(year, 10, project.projectName)" data-toggle="modal" data-target="#myModal">{{project.monthlyHours[9]}}</td>
+                                <td class="hoverCursor" ng-click="calculateDays(year, 11, project.projectName)" data-toggle="modal" data-target="#myModal">{{project.monthlyHours[10]}}</td>
+                                <td class="hoverCursor" ng-click="calculateDays(year, 12, project.projectName)" data-toggle="modal" data-target="#myModal">{{project.monthlyHours[11]}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Daily Project Report For {{project.name}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="chart">
+                    <canvas id="line" class="chart chart-line" chart-data="linedata"
+                            chart-labels="linelabels" chart-options="lineoptions" chart-colors="colors"
+                            chart-dataset-override="datasetOverride" chart-series="series">
+                    </canvas>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

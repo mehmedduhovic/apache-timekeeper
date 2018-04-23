@@ -1,0 +1,24 @@
+<div class='container'>
+    <div class='panel panel-primary'>
+        <div class='panel-heading'>{{pageTitle}} </div>
+        <div class='panel-body'>
+          <table class='table' border='1'>
+            <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Position</th>
+            <th>E-mail</th>
+            <th>Hired on</th>
+            </tr>
+            <tr *ngFor='let employee of employees'>
+              <th>{{employee.firstName}}</th>
+              <th>{{employee.lastName}}</th>
+              <th>{{employee.position.name}}</th>
+              <th>{{employee.email}}</th>
+              <th>{{employee.beginDate | date: 'dd.MM.yyyy'}}</th>
+            </tr> 
+
+          </table>
+        </div>
+    </div>
+</div>

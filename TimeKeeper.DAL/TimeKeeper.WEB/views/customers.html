@@ -1,0 +1,22 @@
+
+<h1>
+    Customers
+</h1>
+<br />
+<div class="row">
+    <div class="col-md-6" ng-controller="custController">
+        <button type="button" class="btn btn-primary" ng-click="add()">Add new customer</button>
+    </div>
+    <div class="col-md-6">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            <input class="form-control" type="text" placeholder="Search customers" ng-model="fil" ng-change="filter(fil)"/></form>
+        </div>
+    </div>
+    <br />
+</div>
+<br />
+<div ng-repeat="item in customers">
+    <customer data="item"></customer>
+</div>
+

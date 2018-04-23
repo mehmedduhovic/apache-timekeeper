@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="timeKeeper">
+
+<head>
+    <link href="app.min.css" rel="stylesheet" />
+    <!-- Latest compiled and minified JavaScript -->
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="lib.min.js"></script>
+    <script src="app.min.js"></script>
+    <script src="template.js"></script>
+  </head>
+
+  <body>
+  <div id="main-wrapper">
+      <header>
+          <div class="container">
+              <div class="pull-left"><h2>Time Keeper</h2></div>
+              <div class="pull-right" style="margin-top:24px">
+                  <a href="#/teams"><button class="btn btn-primary">Teams</button></a>
+                  <a href="#/employees"><button class="btn btn-primary">Employees</button></a>
+                  <a href="#/customers"><button class="btn btn-primary">Customers</button></a>
+                  <a href="#/projects"><button class="btn btn-primary">Projects</button></a>
+              </div>
+          </div>
+      </header>
+
+      <div class="container-fluid"><div ng-view></div></div>
+
+      <footer>
+          <div>Copyright &copy; by Gigi School</div>
+      </footer>
+  </div>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+ <metadata>   
+<id>APACHE_FRONTEND</id>   
+<version>$version$</version>    
+<authors>Maestral Solutions</authors>   
+<owners>Maestral Solutions</owners>  
+<licenseUrl>http://www.maestralsolutions.com/</licenseUrl>    
+<projectUrl>http://www.maestralsolutions.com</projectUrl>    
+<iconUrl>http://www.maestralsolutions.com</iconUrl>    
+<requireLicenseAcceptance>false</requireLicenseAcceptance>  
+<description>NuGet Nuspec for ARS Identity Manager</description>
+<copyright>Copyright Maestral Solutions 2018</copyright>
+</metadata>
+
+<files>
+<file src="TimeKeeper.DAL\TimeKeeper.WEB\**\*.*" target="TimeKeeper.DAL\TimeKeeper.WEB\" />
+</files>
+</package>

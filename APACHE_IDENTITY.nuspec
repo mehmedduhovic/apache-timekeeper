@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+ <metadata>   
+<id>APACHE_IDENTITY</id>   
+<version>$version$</version>    
+<authors>Maestral Solutions</authors>   
+<owners>Maestral Solutions</owners>  
+<licenseUrl>http://www.maestralsolutions.com/</licenseUrl>    
+<projectUrl>http://www.maestralsolutions.com</projectUrl>    
+<iconUrl>http://www.maestralsolutions.com</iconUrl>    
+<requireLicenseAcceptance>false</requireLicenseAcceptance>  
+<description>NuGet Nuspec for ARS Identity Manager</description>
+<copyright>Copyright Maestral Solutions 2018</copyright>
+</metadata>
+
+<files>
+
+<file src="TimeKeeper.DAL\TimeKeeper.OAuth\Web.config" target="TimeKeeper.DAL\TimeKeeper.OAuth" />
+<file src="TimeKeeper.DAL\TimeKeeper.OAuth\bin\**\*.*" target="TimeKeeper.DAL\TimeKeeper.OAuth\bin" exclude="TimeKeeper.DAL\TimeKeeper.OAuth\bin\*.pdb" />
+
+</files>
+</package>

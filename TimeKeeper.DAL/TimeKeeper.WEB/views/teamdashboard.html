@@ -1,0 +1,233 @@
+<section class="content" data-ng-init="buildTeamReport()">
+    <h1 xmlns="http://www.w3.org/1999/html">Team Dashboard</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">Team:
+            <select ng-model="teamId" class="form-control"
+                    ng-init="teamId = teamId"
+                    ng-options="team.id as (team.name) for team in teams"
+                    ng-value="team.id">{{team.name}}
+                <option value="" selected>Choose a Team</option>
+            </select>
+        </div>
+        <div class="col-md-2">Year: <input type="number" class="form-control"
+                                           ng-model="year"
+                                           min="2016" max="2018"
+                                           ng-init="year=2017"></div>
+        <div class="col-md-2">Month: <select class="form-control" ng-model="month"
+                                             ng-init="month=7"
+                                             ng-change="buildTeamReport()"
+                                             ng-options="months.indexOf(ind) as ind for ind in months"></select></div>
+        <div class="col-md-1" style="margin-top:18px">
+        </div>
+    </div>
+    <br >
+    <!-- box information -->
+    <div ng-show="showReport">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <div class="box-title">
+                    <h3>Employee Information</h3>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-purple-gradient"><i class="fa fa-calendar-check-o"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Year, Month:</span>
+                                <span class="info-box-number">{{year}}<small>, {{monthNames[month]}}</small></span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-green-gradient"><i class="fa fa-user"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Number of Employees</span>
+                                <span class="info-box-number">{{teamReport.numberOfEmployees}}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-yellow-gradient"><i class="fa fa-file"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Number of Projects</span>
+                                <span class="info-box-number">{{teamReport.numberOfProjects}}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-aqua-gradient"><i class="fa fa-users"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Team Name</span>
+                                <span class="info-box-number">{{teamReport.name}}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-purple-gradient"><i class="fa fa-balance-scale"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Utilization Percentage</span>
+                                <span class="info-box-number">{{teamReport.dayss.percentageOfWorkingDays}} %</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-maroon-gradient"><i class="fa fa-clock-o"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Total Hours</span>
+                                <span class="info-box-number">{{teamReport.totalHours}}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Nonworking statistics -->
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Project History</h3>
+                    </div>
+                    <div class="box-body">
+                        <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Total Hours</th>
+                                <th>Working Days</th>
+                                <th>Vacation Days</th>
+                                <th>Sick Leave Days</th>
+                                <th>Religious Days</th>
+                                <th>Public Holidays</th>
+                                <th>Other Absence Days</th>
+                                <th>Bussiness Absence Days</th>
+                                <th>Missing Entries</th>
+                                <th>OverTime Hours</th>
+                                <th>Percentage of Working Days</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="report in teamReport.reports" data-toggle="modal" data-target="#myModal" ng-click="buildChart(report)" class="hoverCursor">
+                                <td>{{report.employee.id}}</td>
+                                <td>{{report.employee.name}}</td>
+                                <td>{{report.totalHours}}</td>
+                                <td>{{report.days.workingDays}}</td>
+                                <td>{{report.days.vacationDays}}</td>
+                                <td>{{report.days.sickLeaveDays}}</td>
+                                <td>{{report.days.religiousDays}}</td>
+                                <td>{{report.days.publicHolidays}}</td>
+                                <td>{{report.days.otherAbscenceDays}}</td>
+                                <td>{{report.days.businessAbscenceDays}}</td>
+                                <td>{{report.days.missingEntries}}</td>
+                                <td>{{report.days.overtimeHours}}</td>
+                                <td>{{report.days.percentageOfWorkingDays}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Total Team Information:</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="chart">
+                            <canvas id="teaminformationid" class="chart chart-pie"
+                                    chart-data="totalinfodata" chart-labels="totalinfolabel">
+                            </canvas>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Individual Employee Information for {{report.employee.name}}</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="chart">
+                                    <canvas id="individualInformationBar" class="chart chart-bar"
+                                            chart-data="indempdata" chart-labels="intemplabel" chart-series="intempseries">
+                                    </canvas>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Projects Worked On: </h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body table-responsive no-padding">
+                                <table class="table table-hover">
+                                    <tbody><tr>
+                                        <th>Name</th>
+                                        <th>Hours</th>
+                                    </tr>
+                                    <tr ng-repeat = "project in projectsWorkedOn">
+                                        <td>{{project.name}}</td>
+                                        <td>{{project.totalHours}}</td>
+                                    </tr>
+                                    </tbody></table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
